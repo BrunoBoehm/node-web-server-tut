@@ -108,3 +108,22 @@ And use them with `{{  }}`
     </body>
 </html>
 ```
+
+## S5L44 Handlebar Partials
+We need to register our partials in our `server.js`.
+```js
+hbs.registerPartials(__dirname + '/views/partials');
+```
+
+We create a `/views/partials` folder and a `footer.hbs` template
+The partial then can be injected with `{{> footer}}`.
+
+Handlebar helpers can be registered 
+```js
+hbs.registerHelper('getCurrentYear', () => {
+    return new Date().getFullYear()
+})
+```
+and used like `{{getCurrentYear}}` in any template.
+
+Note it might be useful to tell nodemon to watch handlebar files `nodemon server.js -e js, hbs`.

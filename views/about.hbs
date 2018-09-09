@@ -5,11 +5,9 @@
         <title>{{pageTitle}}</title>
     </head>
     <body>
-        <h1>About Page</h1>
-        <p>This is the {{pageTitle}}</p>
+        {{> header}}
+        <p>This is the {{screamIt pageTitle}}</p>
 
-        <footer>
-            <p>Copyright {{currentYear}}</p>
-        </footer>
+        {{> footer}}
     </body>
 </html>
