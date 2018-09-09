@@ -127,3 +127,44 @@ hbs.registerHelper('getCurrentYear', () => {
 and used like `{{getCurrentYear}}` in any template.
 
 Note it might be useful to tell nodemon to watch handlebar files `nodemon server.js -e js, hbs`.
+
+
+## S5L45 Express middleware
+We can expand express, make changes to the response object, check if someone is logged in etc...
+
+Middleware is simply
+```js
+app.use((req, res, next) => {
+    // next();
+});
+```
+If we comment out next() the page will never render since the middleware doesn't know what to do.
+
+Let's create a log!
+```js
+app.use((req, res, next) => {
+    var now = new Date().toString();
+    var log = `${now}: ${req.method} ${req.url}`;
+    console.log(log);
+    fs.appendFile('server.log', log + '\n', (err) => {
+        if (err) {
+            console.log('Unable to append to server.log');
+        }
+    });
+    next();
+});
+```
+
+We can create a maintenance page
+```js
+app.use((req, res, next) => {
+    res.render('maintenance.hbs');
+});
+```
+We don't call `next()` so the `get()` handlers will not be touched.
+
+Order is super important. If we try to access help.html we see it's still active.
+Make sure that our public folder is called after...
+```js
+app.use(express.static(__dirname + "/public"));
+```
