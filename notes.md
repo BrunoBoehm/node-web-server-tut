@@ -38,3 +38,73 @@ app.listen(3000, () => {
     console.log("Server is on, port 3000");
 });
 ```
+
+## S5L43 Rendering dynamic templates with data
+A templating engine will help us to do what we do with ruby or php.
+We will use `handlebar` with the handlebar view engine for express: https://npmjs.com/package/hbs `npm install hbs@4.0.0 --save`
+
+Configuration is simple:
+```js
+const express = require('express');
+const hbs = require('hbs');
+
+var app = express();
+
+app.set('view engine', 'hbs');
+...
+```
+We can now make a directory called views and create our template base
+```html
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>About Page</title>
+    </head>
+    <body>
+        <h1>About Page</h1>
+        <p>This is the About page</p>
+
+        <footer>
+            <p>Copyright 2018</p>
+        </footer>
+    </body>
+</html>
+```
+
+And we change our route to `render` our template
+```js
+app.get('/about', (req, res) => {
+    res.render('about.hbs');
+});
+```
+
+We can improve this by using variables.
+We pass variables in the route like so
+```js
+app.get('/about', (req, res) => {
+    res.render('about.hbs', {
+        pageTitle: "About Page",
+        currentYear: new Date().getFullYear()
+    });
+});
+```
+
+And use them with `{{  }}`
+```js
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>{{pageTitle}}</title>
+    </head>
+    <body>
+        <h1>About Page</h1>
+        <p>This is the {{pageTitle}}</p>
+
+        <footer>
+            <p>Copyright {{currentYear}}</p>
+        </footer>
+    </body>
+</html>
+```
