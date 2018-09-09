@@ -168,3 +168,30 @@ Make sure that our public folder is called after...
 ```js
 app.use(express.static(__dirname + "/public"));
 ```
+
+## S5L48 Deploying to Heroku
+Check the toolbelt is installed `heroku --help`.
+
+We need to make a few changes to our server.
+`env` in terminal tells your env variables.
+We need a `const port = process.env.PORT || 3000;` if PORT is available (on heroku) it will be used, otherwise it will default to 3000.
+
+We can use this const inside of our `listen` function.
+```js
+app.listen(port, () => {
+    console.log("Server is on, port", port);
+});
+```
+
+Last, we need to add a `start` script to our `package.json`. Heroku will run it.
+```json
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+```
+
+We commit and push to github.
+
+`heroku create` will create a heroku remote.
+We can now `git push heroku` and `heroku open`.
